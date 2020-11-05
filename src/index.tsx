@@ -4,7 +4,8 @@ import Subscription, {
   SubscriptionContext,
   useSubscription,
   Subscriber,
-  SubscriptionAwareProps
+  SubscriptionAwareProps,
+  SubscriberComponent
 } from './Subscription'
 
 export {
@@ -18,5 +19,6 @@ export {
   SubscriptionContext,
   useSubscription,
   Subscriber,
-  SubscriptionAwareProps
+  SubscriptionAwareProps,
+  SubscriberComponent
 }
