@@ -67,7 +67,7 @@ const App = () => {
 }
 ```
 
-Now, you are ready to receive the signal 📡!
+Now, you are ready to receive the signal 📡
 
 ## Subscribe to a channel with `useAntenna` hook
 
