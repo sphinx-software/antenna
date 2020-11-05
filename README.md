@@ -260,7 +260,7 @@ export default () => {
 > All of them will receive messages from the channel. 
 > This approach is very useful when you want to have various ways of presenting the channel data.
 
-That's all! Happy signalling ❤️
+That's all! Happy signaling ❤️
 
 ## License
 
