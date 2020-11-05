@@ -7,7 +7,6 @@ export const AntennaContext = React.createContext<AntennaResource | null>(null)
 
 type AntennaProps = {
   transport: Transporter
-  fallback: JSX.Element
 }
 
 const AntennaProvider: FunctionComponent<AntennaProps> = ({
