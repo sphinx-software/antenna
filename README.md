@@ -92,10 +92,14 @@ export default () => {
 }
 ```
 
-## Using `Subscription` component
+## Using the `Subscription` component
 
-`Subscription` component can handle channel subscription automatically.
+In real world application, you will have to manage rather complex state than the above demo. 
+This is where the `Subscription` component shining.  
+
+`Subscription` component can automatically subscribe & unsubscribe to a channel automatically - thanks to `useEffect` hook.
 Each subscription will have its own state, and can update the state according to the message it received.
+You have complete control over that state by providing a reducer to it. 
 
 ### Let's define your subscription reducer
 
