@@ -1,7 +1,7 @@
 {
   "name": "@sphinx-software/antenna",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The react client for @sphinx-software/station",
   "author": "monkey-programmer",
   "license": "MIT",
