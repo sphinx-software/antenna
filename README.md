@@ -146,7 +146,7 @@ export default (state, action) => {
 import { Subscription } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 
-const INITIAL_CHAT_STATE = { unreads: [], memebers: [], messages: [] } 
+const INITIAL_CHAT_STATE = { unreads: [], members: [], messages: [] } 
 
 export default () => {
   return (
