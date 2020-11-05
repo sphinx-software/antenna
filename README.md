@@ -248,6 +248,18 @@ export default () => {
 }
 ```
 
+
+> 💡
+> 
+> Since `Subscription` is having its state, you can consider it as a __boundary__ of a channel data (the Subscription state).
+> Its child component can and should be well aware about such data.
+>
+> You can add as many `Subscriber` as you want inside a `Subscription`.
+>
+> You can have multiple `Subscription` components sharing the same channel. 
+> All of them will receive messages from the channel. 
+> This approach is very useful when you want to have various ways of presenting the channel data.
+
 That's all! Happy signalling ❤️
 
 ## License
