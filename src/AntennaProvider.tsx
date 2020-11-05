@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, Suspense, useState } from 'react'
+import React, { FunctionComponent, useContext, useState } from 'react'
 import { Transporter } from './Transporter'
 
 import antennaResource, { AntennaResource } from './antennaResource'
@@ -12,14 +12,13 @@ type AntennaProps = {
 
 const AntennaProvider: FunctionComponent<AntennaProps> = ({
   children,
-  transport,
-  fallback
+  transport
 }) => {
   const [resource] = useState(antennaResource(transport))
 
   return (
     <AntennaContext.Provider value={resource}>
-      <Suspense fallback={fallback}>{children}</Suspense>
+      {children}
     </AntennaContext.Provider>
   )
 }

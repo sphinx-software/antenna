@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -6,9 +6,9 @@ import {
   AntennaProvider,
   Subscription,
   Subscriber,
-  firestore,
-  SubscriptionAwareProps
+  firestore
 } from '@sphinx-software/antenna'
+import { SubscriberComponent } from '../../src'
 
 const app = firebase.initializeApp({
   apiKey: 'AIzaSyAaDr6ZfsEGIVGt8qzOasyjT5LVZTbpCjE',
@@ -29,7 +29,7 @@ const transport = firestore({
     )
 })
 
-const Log: FunctionComponent<SubscriptionAwareProps> = ({ state, channel }) => {
+const Log: SubscriberComponent<any> = ({ state, channel }) => {
   return (
     <div>
       Channel logger {channel} - {JSON.stringify(state)}

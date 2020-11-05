@@ -92,6 +92,11 @@ export default () => {
 }
 ```
 
+__IMPORTANT NOTE__
+
+_Components using the `useAntenna` hook __will be suspended__ while the antenna is authorizing your app.
+Remember to wrap it with `Suspense` component to prevent errors._
+
 ## Using the `Subscription` component
 
 In real world application, you will have to manage rather complex state than the above demo. 
@@ -160,6 +165,11 @@ export default () => {
   )
 }
 ```
+
+__IMPORTANT NOTE__
+
+_`Subscription` component __will be suspended__ while the antenna is authorizing your app.
+Remember to wrap it with `Suspense` component to prevent errors._
 
 ### Interacting with subscription state
 
@@ -247,7 +257,6 @@ export default () => {
   )
 }
 ```
-
 
 > 💡
 > 
