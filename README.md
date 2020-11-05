@@ -248,6 +248,7 @@ const Messages = ({ state, dispatch }) => {
 
 ```jsx
 // Chat.js
+import React, { Suspense } from 'react' 
 import { Subscription, Subscriber } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 import Messages from './Messages'
@@ -256,10 +257,13 @@ const INITIAL_CHAT_STATE = { unreads: [], members: [], messages: [] }
 
 export default () => {
   return (
-    <Subscription channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
-      {/*  Place your Messages component here  */}
-      <Subscriber component={Messages} />
-    </Subscription>
+    <Suspense fallback='...'>
+        <Subscription channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
+          {/*  Place your Messages component here  */}
+          <Subscriber component={Messages} />
+        </Subscription>
+    </Suspense>
+    
   )
 }
 ```
