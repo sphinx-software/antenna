@@ -24,6 +24,7 @@ class Firestore implements Transporter {
       .collection('messages')
       .orderBy('_timestamp', 'desc')
       .where('_timestamp', '>=', subscribeTime)
+      .limit(1)
       .onSnapshot((snapshot) => {
         if (snapshot.docs[0]) {
           listener(snapshot.docs[0].get('message'))
