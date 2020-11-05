@@ -29,7 +29,7 @@ const firebaseApp = firebase.initializeApp({})
 
 Now, let's create a `firestore` transport
 
-```jsx 
+```jsx
 import { firestore } from '@sphinx-software/antenna'
 ///
 
@@ -39,7 +39,7 @@ export default firestore({
     // Resolve to firebase custom token here.
     return customToken
   }
-    
+
 })
 ```
 
@@ -59,24 +59,24 @@ const App = () => {
   return (
     <AntennaProvider
       transport={transport}
-      fallback={<div>Signaling ...</div>} 
+      fallback={<div>Signaling ...</div>}
     >
       {/* Your application code  */}
     </AntennaProvider>
   )
 }
-```    
+```
 
 Now, you are ready to receive the signal 📡!
 
 ## Subscribe to a channel with `useAntenna` hook
 
 ```jsx
-import { useAntenna } from '@sphinx-software/antenna' 
+import { useAntenna } from '@sphinx-software/antenna'
 import React, { useEffect, useState } from 'react'
 
 export default () => {
-  
+
   const antenna = useAntenna()
   const [lastMessage, setLastMessage] = useState(null)
 
@@ -110,34 +110,34 @@ export default (state, action) => {
           ...state,
           unreads: [...state.unreads, action.payload],
           messages: [...state.messages, action.payload]
-        }             
+        }
       }
-      
+
       case 'chat.join': {
         return {
           ...state,
           members: [...state.members, action.payload]
-        }   
+        }
       }
-      
+
       case 'chat.leave': {
         return {
           ...state,
           members: state.members.filter(member => member.id !== action.payload.id)
         }
       }
-  
+
       // You can certainly define your custom action type
       case 'chat.markAsRead': {
         return {
           ...state,
           unreads: state.unreads.filter(message => message.id === action.messageId)
-        } 
-      } 
-      default: return state 
+        }
+      }
+      default: return state
    }
 }
-```   
+```
 
 ### Then we can provide a subscription to the channel
 
@@ -146,7 +146,7 @@ export default (state, action) => {
 import { Subscription } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 
-const INITIAL_CHAT_STATE = { unreads: [], members: [], messages: [] } 
+const INITIAL_CHAT_STATE = { unreads: [], members: [], messages: [] }
 
 export default () => {
   return (
@@ -155,7 +155,7 @@ export default () => {
     </Subscription>
   )
 }
-``` 
+```
 
 ### Interacting with subscription state
 
@@ -169,14 +169,14 @@ const Messages = () => {
   const [ state, dispatch ] = useSubscription()
   return (
     <ul>
-      { 
+      {
         state.messages.map(message => {
           return (
-            <li 
-              onClick={() => dispatch({ type: 'chat.markAsRead', messageId: message.id})} 
+            <li
+              onClick={() => dispatch({ type: 'chat.markAsRead', messageId: message.id})}
               key={message.id}>{message.content}
             </li>
-          )  
+          )
         })
       }
     </ul>
@@ -193,7 +193,7 @@ import { Subscription } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 import Messages from './Messages'
 
-const INITIAL_CHAT_STATE = { unreads: [], memebers: [], messages: [] } 
+const INITIAL_CHAT_STATE = { unreads: [], memebers: [], messages: [] }
 
 export default () => {
   return (
@@ -210,14 +210,14 @@ You also can use the `Subscriber` HoC to archive the same functionality
 const Messages = ({ state, dispatch }) => {
   return (
     <ul>
-      { 
+      {
         state.messages.map(message => {
           return (
-            <li 
-              onClick={() => dispatch({ type: 'chat.markAsRead', messageId: message.id})} 
+            <li
+              onClick={() => dispatch({ type: 'chat.markAsRead', messageId: message.id})}
               key={message.id}>{message.content}
             </li>
-          )  
+          )
         })
       }
     </ul>
@@ -232,7 +232,7 @@ import { Subscription, Subscriber } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 import Messages from './Messages'
 
-const INITIAL_CHAT_STATE = { unreads: [], memebers: [], messages: [] } 
+const INITIAL_CHAT_STATE = { unreads: [], memebers: [], messages: [] }
 
 export default () => {
   return (
@@ -244,7 +244,7 @@ export default () => {
 }
 ```
 
-That's all! Happy signalling ❤️ 
+That's all! Happy signalling ❤️
 
 ## License
 
