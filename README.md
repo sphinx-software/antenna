@@ -152,6 +152,7 @@ export default (state, action) => {
 
 ```jsx
 // Chat.js
+import React, { Suspense } from 'react'
 import { Subscription } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 
@@ -159,9 +160,11 @@ const INITIAL_CHAT_STATE = { unreads: [], members: [], messages: [] }
 
 export default () => {
   return (
-    <Subscription channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
-      {/*  TODO  */}
-    </Subscription>
+    <Suspense fallback='...'>
+        <Subscription channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
+          {/*  TODO  */}
+        </Subscription>
+    </Suspense>
   )
 }
 ```
@@ -203,6 +206,7 @@ Then place your `Messages` component into the `Subscription` context:
 
 ```jsx
 // Chat.js
+import React, { Suspense } from 'react' 
 import { Subscription } from '@sphinx-software/antenna'
 import chatReducer from './chatReducer'
 import Messages from './Messages'
@@ -211,10 +215,12 @@ const INITIAL_CHAT_STATE = { unreads: [], members: [], messages: [] }
 
 export default () => {
   return (
-    <Subscription channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
-      {/*  Place your Messages component here  */}
-      <Messages/>
-    </Subscription>
+    <Suspense fallback='...'>
+        <Subscription channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
+          {/*  Place your Messages component here  */}
+          <Messages/>
+        </Subscription>
+    </Suspense>
   )
 }
 ```
