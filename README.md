@@ -1,8 +1,8 @@
-[@sphinx-software/antenna](logo.png)
+![@sphinx-software/antenna](logo.png)
 
-# @sphinx-software/antenna
+# Antenna
 
-> The client for @sphinx-software/station
+__The React client for @sphinx-software/station__
 
 [![NPM](https://img.shields.io/npm/v/@sphinx-software/antenna.svg)](https://www.npmjs.com/package/@sphinx-software/antenna) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
