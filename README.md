@@ -251,7 +251,7 @@ export default () => {
 
 > 💡
 > 
-> Since `Subscription` has its state, you can consider it as a __boundary__ of a channel data (the Subscription state).
+> Since `Subscription` has its state, you can consider it as a __boundary__ of the channel data (the Subscription state).
 > Its child component can and should be well aware about such data.
 >
 > You can add as many `Subscriber` as you want inside a `Subscription`.
