@@ -2,7 +2,6 @@ import { Transporter } from './Transporter'
 
 export type AntennaResource = {
   fetch(): Transporter
-  retry(): Transporter
 }
 
 export default (transport: Transporter): AntennaResource => {
@@ -30,11 +29,6 @@ export default (transport: Transporter): AntennaResource => {
       }
 
       throw authorizationPromise
-    },
-
-    retry() {
-      authorizationPromise = null
-      return this.fetch()
     }
   }
 }
