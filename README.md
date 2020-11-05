@@ -18,7 +18,7 @@ To start using this library, you'll need initialize a firebase application at fi
 
 
 ```jsx
-import React  from 'react'
+import React from 'react'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
