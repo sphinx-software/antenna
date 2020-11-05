@@ -10,13 +10,22 @@ import {
   SubscriptionAwareProps
 } from '@sphinx-software/antenna'
 
-const app = firebase.initializeApp({})
+const app = firebase.initializeApp({
+  apiKey: 'AIzaSyAaDr6ZfsEGIVGt8qzOasyjT5LVZTbpCjE',
+  authDomain: 'mimamori-alpha.firebaseapp.com',
+  databaseURL: 'https://mimamori-alpha.firebaseio.com',
+  projectId: 'mimamori-alpha',
+  storageBucket: 'mimamori-alpha.appspot.com',
+  messagingSenderId: '167074049197',
+  appId: '1:167074049197:web:5a7001063f50f0c0f76a24',
+  measurementId: 'G-PDY1JNLPL4'
+})
 
 const transport = firestore({
   firebase: app,
   auth: () =>
     Promise.resolve(
-      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTYwNDU2MTc2NywiZXhwIjoxNjA0NTY1MzY3LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1oNjdwN0BtaW1hbW9yaS1hbHBoYS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLWg2N3A3QG1pbWFtb3JpLWFscGhhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoicHJpdmF0ZV9jaGFubmVsX3VzZXItMSIsImNsYWltcyI6eyJ0eXBlIjoic3RhdGlvbi5zdWJzY3JpYmVyIn19.c4m7i4av5qJvIUjtjJhy3yNOl-bSLTF46dm33qiFOppsjd6wFSClW8sawBd1yavakdDu8PtLKOzdECnjjy9b8nEV6GnGn7J0QdSRHV91ts_yU1j-i6CF3E5cZYZAu9o6qUNddmZT36FAaqwcFol3Wn1mt1TTkpL7uEk990Ut_Uw7sLdPxomWzayJ2R5tFtkFffY2QkIm-TqehzeohnrCP4FRxNGb94GYpi_H-wU-j30RDhEKQESfEW1_6yP5pXfOvP9OqTdPm_ay2RJGE4JrOCjRxk5l1kzUXLJ4kZK13OOHhFOEx36dSC4U1IFQyC3kjEoeSggSbo3PgQVdtkZuIQ'
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTYwNDU3Mjk1OCwiZXhwIjoxNjA0NTc2NTU4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1oNjdwN0BtaW1hbW9yaS1hbHBoYS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLWg2N3A3QG1pbWFtb3JpLWFscGhhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoicHJpdmF0ZV9jaGFubmVsX3VzZXItMSIsImNsYWltcyI6eyJ0eXBlIjoic3RhdGlvbi5zdWJzY3JpYmVyIn19.bTBLeM2eyEQvfbuIoefKvq2v4Xnqebrm7hENe8_X0prJR0X6ywMq0fnuurVrW2N449MvcLiqsYJ6N1_zj-2qVLCOM-rrvTmOnLpLr-KAjEJlOKfESRVVhpnHGiDruE3ZLB4Z_K5UGUEyVsZH4v5VxU6YLky34HsxssN2isQ3S8dzNRg9x2WblpMtO6i5qFVooKYqm99YwK5m3jUNV5m_eOgNymP3zhrCLdE80ojQpdmHDpEG7QwX4NShdGyOMr0ww_kNI7QSguQpiTW6AzGw7XgnJQ41ERetDrRR7NqgVOjyK8IGTdQhUnLuh4-B4rG_O2V_jzrMYB6DLGuIG_-pXA'
     )
 })
 
@@ -43,6 +52,14 @@ const App = () => {
           channel='private_channel_user-1'
           initialState={{}}
           reducer={(_, action) => action.payload}
+        >
+          <Subscriber component={Log} />
+        </Subscription>
+
+        <Subscription
+          channel='private_channel_user-1'
+          initialState={{}}
+          reducer={(_, action) => ({ ...action.payload, date: new Date() })}
         >
           <Subscriber component={Log} />
         </Subscription>
