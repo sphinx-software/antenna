@@ -159,7 +159,7 @@ export default () => {
 
 ### Interacting with subscription state
 
-You can use the `useSubscription` hook to interact with the subscriptio state
+You can use the `useSubscription` hook to interact with the subscription state
 
 ```jsx
 import React from 'react'
