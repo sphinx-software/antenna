@@ -10,8 +10,6 @@ type FirestoreOptions = {
 } & GenericOption<CustomToken>
 
 class Firestore implements Transporter {
-  private firstArrivalSnapshot: any = null
-
   constructor(
     private readonly channelCollection: firebase.firestore.CollectionReference,
     private readonly authenticator: firebase.auth.Auth,
@@ -19,14 +17,15 @@ class Firestore implements Transporter {
   ) {}
 
   public subscribe(channel: string, listener: Listener<unknown>) {
+    const subscribeTime = new Date().getTime()
+
     return this.channelCollection
       .doc(channel)
       .collection('messages')
       .orderBy('_timestamp', 'desc')
+      .where('_timestamp', '>=', subscribeTime)
       .onSnapshot((snapshot) => {
-        if (!this.firstArrivalSnapshot) {
-          this.firstArrivalSnapshot = snapshot
-        } else if (snapshot.docs[0]) {
+        if (snapshot.docs[0]) {
           listener(snapshot.docs[0].get('message'))
         }
       })
