@@ -52,13 +52,15 @@ const Subscription: FunctionComponent<SubscriptionProps> = ({
   )
 }
 type SubscriptionAwareProps<State> = SubscriptionContextValue<State>
-
-type SubscriberProps = {
-  component:
-    | React.ComponentClass<SubscriptionContextValue<unknown>>
-    | React.FunctionComponent<SubscriptionContextValue<unknown>>
+type SubscriberComponent<State> =
+  | React.ComponentClass<SubscriptionAwareProps<State>>
+  | React.FunctionComponent<SubscriptionAwareProps<State>>
+type SubscriberProps<State> = {
+  component: SubscriberComponent<State>
 }
-const Subscriber: FunctionComponent<SubscriberProps> = ({ component }) => {
+const Subscriber: FunctionComponent<SubscriberProps<unknown>> = ({
+  component
+}) => {
   const { state, dispatch, channel } = useContext(
     SubscriptionContext
   ) as SubscriptionContextValue<unknown>
@@ -68,7 +70,12 @@ const Subscriber: FunctionComponent<SubscriberProps> = ({ component }) => {
 }
 
 export default Subscription
-export { SubscriptionContext, Subscriber, SubscriptionAwareProps }
+export {
+  SubscriptionContext,
+  Subscriber,
+  SubscriptionAwareProps,
+  SubscriberComponent
+}
 export function useSubscription<State>(): [State, Dispatch<any>, string] {
   const { state, dispatch, channel } = useContext(
     SubscriptionContext
