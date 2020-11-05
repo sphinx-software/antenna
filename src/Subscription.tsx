@@ -51,7 +51,7 @@ const Subscription: FunctionComponent<SubscriptionProps> = ({
     </SubscriptionContext.Provider>
   )
 }
-type SubscriptionAwareProps = SubscriptionContextValue<unknown>
+type SubscriptionAwareProps<State> = SubscriptionContextValue<State>
 
 type SubscriberProps = {
   component:
