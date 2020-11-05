@@ -131,7 +131,7 @@ export default (state, action) => {
       case 'chat.markAsRead': {
         return {
           ...state,
-          unreads: state.unreads.filter(message => message.id === action.messageId)
+          unreads: state.unreads.filter(message => message.id !== action.messageId)
         }
       }
       default: return state
