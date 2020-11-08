@@ -7,13 +7,17 @@ export type AntennaResource = {
 export default (transporter: Transporter): AntennaResource => {
   let error: Error | null = null
   let handshaked = false
-  let handshaking = transporter
-    .handshake()
-    .then(() => (handshaked = true))
-    .catch((_error) => (error = _error))
+  let handshaking: Promise<void> | null = null
 
   return {
     fetch() {
+      if (!handshaking) {
+        handshaking = transporter
+          .handshake()
+          .then(() => (handshaked = true))
+          .catch((_error) => (error = _error))
+      }
+
       if (error) {
         throw error
       }
