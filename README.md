@@ -98,7 +98,7 @@ export default () => {
 
 __⚠️ IMPORTANT__
 
-___Components using the `useAntenna` hook __will be suspended__ while the antenna is authorizing your app.
+___Components using the `useAntenna` hook __will be suspended__ while the antenna is handshaking to the server.
 Remember to wrap it with `Suspense` component to prevent errors.___
 
 ## Using the `Subscription` component
@@ -175,7 +175,7 @@ export default () => {
 
 __⚠️ IMPORTANT__
 
-___`Subscription` component __will be suspended__ while the antenna is authorizing your app.
+___`Subscription` component __will be suspended__ while the antenna is handshaking to the server.
 Remember to wrap it with `Suspense` component to prevent errors.___
 
 ### Interacting with subscription state
@@ -271,6 +271,21 @@ export default () => {
   )
 }
 ```
+
+### Subscribe to private channel
+
+To subscribe to a private channel, you can pass the `isPrivate` channel prop to the `Subscription` component.
+
+```jsx
+// ....
+<Subscription isPrivate channel='channel_chat' initialState={INITIAL_CHAT_STATE} reducer={chatReducer}>
+  {/* ... */}
+</Subscription>
+``` 
+Under the hood, if the subscription is subscribing to the private channel, antenna will
+trigger the `authorize()` callback that you have passed from the config.
+
+While authorization process is running, the Subscription component will be suspended.
 
 > 💡
 > 
