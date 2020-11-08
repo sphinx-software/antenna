@@ -1,5 +1,7 @@
-export type AuthProvider<AuthEntity> = () => Promise<AuthEntity>
+export type HandshakeProvider<AuthEntity> = () => Promise<AuthEntity>
+export type AuthorizationProvider = (channel: string) => Promise<void>
 
 export type GenericOption<AuthEntity> = {
-  auth: AuthProvider<AuthEntity>
+  handshake: HandshakeProvider<AuthEntity>
+  authorize: AuthorizationProvider
 }

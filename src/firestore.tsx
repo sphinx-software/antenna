@@ -1,6 +1,10 @@
 import { Listener, Transporter } from './Transporter'
 import firebase from 'firebase'
-import { AuthProvider, GenericOption } from './GenericOption'
+import {
+  HandshakeProvider,
+  AuthorizationProvider,
+  GenericOption
+} from './GenericOption'
 
 type CustomToken = string
 
@@ -13,7 +17,8 @@ class Firestore implements Transporter {
   constructor(
     private readonly channelCollection: firebase.firestore.CollectionReference,
     private readonly authenticator: firebase.auth.Auth,
-    private readonly entityProvider: AuthProvider<CustomToken>
+    private readonly handshakeProvider: HandshakeProvider<CustomToken>,
+    private readonly authorizationProvider: AuthorizationProvider
   ) {}
 
   public subscribe(channel: string, listener: Listener<unknown>) {
@@ -32,18 +37,24 @@ class Firestore implements Transporter {
       })
   }
 
-  public async authorize() {
-    const token = await this.entityProvider()
-    await this.authenticator.signInWithCustomToken(token)
+  public async authorize(channel: string) {
+    await this.authorizationProvider(channel)
+  }
+
+  public async handshake() {
+    await this.authenticator.signInWithCustomToken(
+      await this.handshakeProvider()
+    )
   }
 }
 
 export default ({
   firebase,
-  auth,
+  handshake,
+  authorize,
   collection = 'channels'
 }: FirestoreOptions) => {
   const channelCollection = firebase.firestore().collection(collection)
 
-  return new Firestore(channelCollection, firebase.auth(), auth)
+  return new Firestore(channelCollection, firebase.auth(), handshake, authorize)
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent, Suspense } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -6,9 +6,10 @@ import {
   AntennaProvider,
   Subscription,
   Subscriber,
-  firestore
+  firestore,
+  SubscriberComponent,
+  useSubscription
 } from '@sphinx-software/antenna'
-import { SubscriberComponent } from '../../src'
 
 const app = firebase.initializeApp({
   apiKey: 'AIzaSyAaDr6ZfsEGIVGt8qzOasyjT5LVZTbpCjE',
@@ -23,18 +24,28 @@ const app = firebase.initializeApp({
 
 const transport = firestore({
   firebase: app,
-  auth: () =>
-    Promise.resolve(
-      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTYwNDU3Mjk1OCwiZXhwIjoxNjA0NTc2NTU4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1oNjdwN0BtaW1hbW9yaS1hbHBoYS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLWg2N3A3QG1pbWFtb3JpLWFscGhhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoicHJpdmF0ZV9jaGFubmVsX3VzZXItMSIsImNsYWltcyI6eyJ0eXBlIjoic3RhdGlvbi5zdWJzY3JpYmVyIn19.bTBLeM2eyEQvfbuIoefKvq2v4Xnqebrm7hENe8_X0prJR0X6ywMq0fnuurVrW2N449MvcLiqsYJ6N1_zj-2qVLCOM-rrvTmOnLpLr-KAjEJlOKfESRVVhpnHGiDruE3ZLB4Z_K5UGUEyVsZH4v5VxU6YLky34HsxssN2isQ3S8dzNRg9x2WblpMtO6i5qFVooKYqm99YwK5m3jUNV5m_eOgNymP3zhrCLdE80ojQpdmHDpEG7QwX4NShdGyOMr0ww_kNI7QSguQpiTW6AzGw7XgnJQ41ERetDrRR7NqgVOjyK8IGTdQhUnLuh4-B4rG_O2V_jzrMYB6DLGuIG_-pXA'
+  handshake: () => {
+    console.log('Handshaking')
+    return Promise.resolve(
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTYwNDgzODcxOCwiZXhwIjoxNjA0ODQyMzE4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1oNjdwN0BtaW1hbW9yaS1hbHBoYS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLWg2N3A3QG1pbWFtb3JpLWFscGhhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoicHJpdmF0ZV9jaGFubmVsX3VzZXItMSIsImNsYWltcyI6eyJ0eXBlIjoic3RhdGlvbi5zdWJzY3JpYmVyIn19.Fz-lMAw_SWrg5_UwzS1flCXhLLqYTln5NB5qr6MVAjS2tMdyceN2jpu9lE83c46MjjhzmSt52x7DilvQTZHx2MIBqsWWJwfUU90pbh18v7zvyn1AYH41xN7KMaq2e01p7hY6-P545LcZr1EbV-fp2bR0QJH1fcUJSesiZUgyKo4LxFiwyZrVGQLaibc9oHt9NYVU2pAGO3ZxZG-R5VDpSzCTF6YtYItuZ7xOqdOiGCSUK5CweKK7_wDAzzQ56657dLZNIAyQ7M4AOsuFvoopFCYMTtY1punX5zpHZX4LnH7ARS_yhRtidHoEzLkl0XufBfkN4iWg6Ssfi8HZybmVmA'
     )
+  },
+  authorize: (channel: string) => {
+    console.log('authorizing ', channel)
+    return new Promise((resolve) => {
+      setTimeout(resolve, 1000)
+    })
+  }
 })
 
-const Log: SubscriberComponent<any> = ({ state, channel }) => {
-  return (
-    <div>
-      Channel logger {channel} - {JSON.stringify(state)}
-    </div>
-  )
+const Log: SubscriberComponent<any> = ({ state }) => {
+  return <div>Channel logger {JSON.stringify(state)}</div>
+}
+
+const SmartLog: FunctionComponent = () => {
+  const [state] = useSubscription()
+
+  return <div>Smart Channel logger {JSON.stringify(state)}</div>
 }
 
 const App = () => {
@@ -46,23 +57,19 @@ const App = () => {
       </span>
       <AntennaProvider
         transport={transport}
-        fallback={<div>Signaling ...</div>}
+        fallback={<span>...Handshaking</span>}
       >
-        <Subscription
-          channel='private_channel_user-1'
-          initialState={{}}
-          reducer={(_, action) => action.payload}
-        >
-          <Subscriber component={Log} />
-        </Subscription>
-
-        <Subscription
-          channel='private_channel_user-1'
-          initialState={{}}
-          reducer={(_, action) => ({ ...action.payload, date: new Date() })}
-        >
-          <Subscriber component={Log} />
-        </Subscription>
+        <Suspense fallback={'....'}>
+          <Subscription
+            fallback={<span>...Signaling</span>}
+            channel='private_channel_user-1'
+            initial={{}}
+            reducer={(_, action: any) => action.payload}
+          >
+            <Subscriber component={Log} />
+            <SmartLog />
+          </Subscription>
+        </Suspense>
       </AntennaProvider>
     </div>
   )

@@ -1,12 +1,12 @@
 import firestore from './firestore'
 import AntennaProvider, { AntennaContext, useAntenna } from './AntennaProvider'
-import Subscription, {
-  SubscriptionContext,
-  useSubscription,
+import Subscription from './Subscription'
+import {
   Subscriber,
-  SubscriptionAwareProps,
-  SubscriberComponent
-} from './Subscription'
+  SubscriberProps,
+  SubscriberComponent,
+  useSubscription
+} from './Subscriber'
 
 export {
   firestore,
@@ -14,11 +14,10 @@ export {
   AntennaProvider,
   AntennaContext,
   useAntenna,
-  // Subscription provider
+  // Subscriptions
   Subscription,
-  SubscriptionContext,
-  useSubscription,
+  SubscriberProps,
+  SubscriberComponent,
   Subscriber,
-  SubscriptionAwareProps,
-  SubscriberComponent
+  useSubscription
 }

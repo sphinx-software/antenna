@@ -4,31 +4,25 @@ export type AntennaResource = {
   fetch(): Transporter
 }
 
-export default (transport: Transporter): AntennaResource => {
-  let authorizationPromise: Promise<void> | null = null
-  let _error: Error | null = null
-  let authorized = false
+export default (transporter: Transporter): AntennaResource => {
+  let error: Error | null = null
+  let handshaked = false
+  let handshaking = transporter
+    .handshake()
+    .then(() => (handshaked = true))
+    .catch((_error) => (error = _error))
 
   return {
-    // At the first attempt to subscribe, we'll do authorization
     fetch() {
-      if (!authorizationPromise) {
-        authorizationPromise = transport
-          .authorize()
-          .then(() => {
-            authorized = true
-          })
-          .catch((error) => (_error = error))
+      if (error) {
+        throw error
       }
 
-      if (_error) {
-        throw _error
-      }
-      if (authorized) {
-        return transport
+      if (!handshaked) {
+        throw handshaking
       }
 
-      throw authorizationPromise
+      return transporter
     }
   }
 }
