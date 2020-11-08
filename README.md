@@ -35,11 +35,15 @@ import { firestore } from '@sphinx-software/antenna'
 
 export default firestore({
   firebase: firebaseApp,
-  auth: async () => {
+  handshake: async () => {
     // Resolve to firebase custom token here.
+    // Usually, you'll make an API call.
     return customToken
-  }
+  },
 
+  authorize: async (channel) => {
+    // Request subscription permission to the server
+  }
 })
 ```
 
