@@ -8,7 +8,14 @@ import {
   useSubscription
 } from './Subscriber'
 
+import { Transporter, Listener, Detach } from './Transporter'
+
 export {
+  // Contracts
+  Transporter,
+  Listener,
+  Detach,
+  // Default transport
   firestore,
   // Antenna provider
   AntennaProvider,
